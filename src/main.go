@@ -4,6 +4,7 @@ import (
     "log"
 
     "github.com/joho/godotenv"
+    "github.com/JulOuellet/crypto-bot/src/coinbase_api"
 )
 
 
@@ -14,5 +15,10 @@ func main() {
     if err != nil {
 	log.Fatal("Error loading .env file: ", err)
     }
+
+    code, response, err := coinbase_api.GetAccounts()
+
+    println(code)
+    println(response)
 
 }
