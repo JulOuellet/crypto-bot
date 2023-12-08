@@ -2,20 +2,15 @@ package coinbase_api
 
 import (
     "net/http"
-    "os"
     "io"
 )
 
-func GetAccounts() (int, string, error) {
-    apiKey := os.Getenv("COINBASE_API_KEY")
-    apiSecret := os.Getenv("COINBASE_API_SECRET")
+func GetAccounts(apiKey, apiSecret string, client http.Client) (int, string, error) {
 
     headers, err := GenerateHeaders(apiKey, apiSecret, "GET", "/api/v3/brokerage/accounts", "")
     if err != nil {
 	return 0, "", err
     }
-
-    client := &http.Client{}
 
     req, err := http.NewRequest("GET", "https://api.coinbase.com/api/v3/brokerage/accounts", nil)
     if err != nil {
@@ -38,5 +33,5 @@ func GetAccounts() (int, string, error) {
     respCode := resp.StatusCode
 
     return respCode, string(respBody), nil
-} 
+}
 

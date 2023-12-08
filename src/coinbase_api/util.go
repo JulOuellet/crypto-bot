@@ -1,12 +1,12 @@
 package coinbase_api
 
 import (
-	"crypto/hmac"
-	"crypto/sha256"
-	"encoding/hex"
-	"net/http"
-	"strconv"
-	"time"
+    "crypto/hmac"
+    "crypto/sha256"
+    "encoding/hex"
+    "net/http"
+    "strconv"
+    "time"
 )
 
 func GenerateHeaders(apiKey, apiSecret, method, requestPath, body string) (http.Header, error) {

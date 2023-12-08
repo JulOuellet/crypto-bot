@@ -2,6 +2,8 @@ package main
 
 import (
     "log"
+    "os"
+    "net/http"
 
     "github.com/joho/godotenv"
     "github.com/JulOuellet/crypto-bot/src/coinbase_api"
@@ -16,7 +18,12 @@ func main() {
 	log.Fatal("Error loading .env file: ", err)
     }
 
-    code, response, err := coinbase_api.GetAccounts()
+    apiKey := os.Getenv("COINBASE_API_KEY")
+    apiSecret := os.Getenv("COINBASE_API_SECRET")
+
+    client := http.Client{}
+
+    code, response, err := coinbase_api.GetAccounts(apiKey, apiSecret, client)
 
     println(code)
     println(response)
