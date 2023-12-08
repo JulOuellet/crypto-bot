@@ -3,30 +3,27 @@ package coinbase_api
 import (
 	"crypto/hmac"
 	"crypto/sha256"
-	"encoding/base64"
+	"encoding/hex"
+	"net/http"
 	"strconv"
 	"time"
 )
 
-func GenerateHeaders(apiKey, apiSecret, method, requestPath, body string) (map[string]string, error) {
+func GenerateHeaders(apiKey, apiSecret, method, requestPath, body string) (http.Header, error) {
     timestamp := strconv.FormatInt(time.Now().Unix(), 10)
-    prehash := timestamp + method + requestPath + body
-
-    decodedSecret, err := base64.StdEncoding.DecodeString(apiSecret)
+    
+    signatureString := timestamp + method + requestPath + body
+    hmacObject := hmac.New(sha256.New, []byte(apiSecret))
+    _, err := hmacObject.Write([]byte(signatureString))
     if err != nil {
 	return nil, err
     }
+    signature := hex.EncodeToString(hmacObject.Sum(nil))
 
-    mac := hmac.New(sha256.New, decodedSecret)
-    mac.Write([]byte(prehash))
-
-    signature := base64.StdEncoding.EncodeToString(mac.Sum(nil))
-
-    headers := map[string]string {
-	"CB-ACCESS-KEY": apiKey,
-	"CB-ACCESS-SIGN": signature,
-	"CB-ACCESS-TIMESTAMP": timestamp,
-    }
+    headers := make(http.Header)
+    headers.Set("CB-ACCESS-KEY", apiKey)
+    headers.Set("CB-ACCESS-SIGN", signature)
+    headers.Set("CB-ACCESS-TIMESTAMP", timestamp)
 
     return headers, nil
 }
