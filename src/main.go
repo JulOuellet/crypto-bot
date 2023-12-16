@@ -25,7 +25,12 @@ func main() {
 
     code, response, err := account.GetAccounts(apiKey, apiSecret, client)
 
-    println("Response: ", response.Accounts[0].Name)
+    for _, account := range response.Accounts {
+	if account.HasBalance() {
+	    println("Account: ", account.Name + ", balance: ", account.AvailableBalance.Value, account.AvailableBalance.Currency)
+	}
+    }
+
     println("Code: ", code)
 }
 
