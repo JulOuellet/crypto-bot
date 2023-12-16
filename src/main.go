@@ -1,12 +1,12 @@
 package main
 
 import (
-    "log"
-    "os"
-    "net/http"
+	"log"
+	"net/http"
+	"os"
 
-    "github.com/joho/godotenv"
-    "github.com/JulOuellet/crypto-bot/src/coinbase_api"
+	"github.com/JulOuellet/crypto-bot/src/coinbase_api/account"
+	"github.com/joho/godotenv"
 )
 
 
@@ -23,6 +23,9 @@ func main() {
 
     client := http.Client{}
 
-    coinbase_api.GetAccounts(apiKey, apiSecret, client)
+    code, response, err := account.GetAccounts(apiKey, apiSecret, client)
+
+    println("Response: ", response.Accounts[0].Name)
+    println("Code: ", code)
 }
 

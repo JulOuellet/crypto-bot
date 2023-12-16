@@ -1,10 +1,12 @@
-package coinbase_api
+package account
 
 import (
-    "time"
-    "net/http"
-    "io"
-    "encoding/json"
+	"encoding/json"
+	"io"
+	"net/http"
+	"time"
+
+	"github.com/JulOuellet/crypto-bot/src/coinbase_api"
 )
 
 type Balance struct {
@@ -34,7 +36,7 @@ type AccountResponse struct {
 func GetAccount(apiKey, apiSecret, accountUuid string, client http.Client) (int, AccountResponse, error) {
     var response AccountResponse
 
-    headers, err := GenerateHeaders(apiKey, apiSecret, "GET", "/api/v3/brokerage/accounts/" + accountUuid, "")
+    headers, err := coinbase_api.GenerateHeaders(apiKey, apiSecret, "GET", "/api/v3/brokerage/accounts/" + accountUuid, "")
     if err != nil {
 	return 0, response, err
     }

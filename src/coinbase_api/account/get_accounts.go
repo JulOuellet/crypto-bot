@@ -1,9 +1,11 @@
-package coinbase_api
+package account
 
 import (
+	"encoding/json"
 	"io"
 	"net/http"
-	"encoding/json"
+
+	"github.com/JulOuellet/crypto-bot/src/coinbase_api"
 )
 
 type AccountsResponse struct {
@@ -16,7 +18,7 @@ type AccountsResponse struct {
 func GetAccounts(apiKey, apiSecret string, client http.Client) (int, AccountsResponse, error) {
     var response AccountsResponse
 
-    headers, err := GenerateHeaders(apiKey, apiSecret, "GET", "/api/v3/brokerage/accounts", "")
+    headers, err := coinbase_api.GenerateHeaders(apiKey, apiSecret, "GET", "/api/v3/brokerage/accounts", "")
     if err != nil {
 	return 0, response, err
     }
