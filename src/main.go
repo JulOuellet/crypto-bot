@@ -26,5 +26,5 @@ func main() {
     code, response, err := coinbase_api.GetAccounts(apiKey, apiSecret, client)
 
     println(code)
-    println(response)
+    println(response.Accounts[0].Name)
 }
