@@ -11,7 +11,7 @@ import (
 
 func GenerateHeaders(apiKey, apiSecret, method, requestPath, body string) (http.Header, error) {
     timestamp := strconv.FormatInt(time.Now().Unix(), 10)
-    
+
     signatureString := timestamp + method + requestPath + body
     hmacObject := hmac.New(sha256.New, []byte(apiSecret))
     _, err := hmacObject.Write([]byte(signatureString))
