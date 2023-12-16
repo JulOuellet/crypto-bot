@@ -6,15 +6,15 @@ import (
 	"encoding/json"
 )
 
-type Response struct {
+type AccountsResponse struct {
    Accounts []Account `json:"accounts"`
    HasNext bool     `json:"has_next"`
    Cursor  string   `json:"cursor"`
    Size    int      `json:"size"`
 }
 
-func GetAccounts(apiKey, apiSecret string, client http.Client) (int, Response, error) {
-    var response Response
+func GetAccounts(apiKey, apiSecret string, client http.Client) (int, AccountsResponse, error) {
+    var response AccountsResponse
 
     headers, err := GenerateHeaders(apiKey, apiSecret, "GET", "/api/v3/brokerage/accounts", "")
     if err != nil {
@@ -25,7 +25,6 @@ func GetAccounts(apiKey, apiSecret string, client http.Client) (int, Response, e
     if err != nil {
 	return 0, response, err
     }
-
     req.Header = headers
 
     resp, err := client.Do(req)
