@@ -2,10 +2,9 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"os"
 
-	"github.com/JulOuellet/crypto-bot/src/coinbase_api/account"
+	"github.com/JulOuellet/crypto-bot/src/coinbase_api"
 	"github.com/joho/godotenv"
 )
 
@@ -21,9 +20,8 @@ func main() {
     apiKey := os.Getenv("COINBASE_API_KEY")
     apiSecret := os.Getenv("COINBASE_API_SECRET")
 
-    client := http.Client{}
-
-    code, response, err := account.GetAccounts(apiKey, apiSecret, client)
+    api := coinbase_api.NewCoinbaseApi(apiKey, apiSecret)
+    code, response, err := api.GetAccounts()
 
     for _, account := range response.Accounts {
 	if account.HasBalance() {

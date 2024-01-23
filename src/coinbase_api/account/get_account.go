@@ -4,21 +4,14 @@ import (
     "encoding/json"
     "io"
     "net/http"
-
-    "github.com/JulOuellet/crypto-bot/src/coinbase_api"
 )
 
 type AccountResponse struct {
    Account Account `json:"account"`
 }
 
-func GetAccount(apiKey, apiSecret, accountUuid string, client http.Client) (int, AccountResponse, error) {
+func GetAccount(apiKey, apiSecret, accountUuid string, client http.Client, headers http.Header) (int, AccountResponse, error) {
     var response AccountResponse
-
-    headers, err := coinbase_api.GenerateHeaders(apiKey, apiSecret, "GET", "/api/v3/brokerage/accounts/" + accountUuid, "")
-    if err != nil {
-	return 0, response, err
-    }
 
     req, err := http.NewRequest("GET", "https://api.coinbase.com/api/v3/brokerage/accounts/" + accountUuid, nil)
     if err != nil {

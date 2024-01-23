@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
-
-	"github.com/JulOuellet/crypto-bot/src/coinbase_api"
 )
 
 type AccountsResponse struct {
@@ -15,13 +13,8 @@ type AccountsResponse struct {
    Size    int      `json:"size"`
 }
 
-func GetAccounts(apiKey, apiSecret string, client http.Client) (int, AccountsResponse, error) {
+func GetAccounts(apiKey, apiSecret string, client http.Client, headers http.Header) (int, AccountsResponse, error) {
     var response AccountsResponse
-
-    headers, err := coinbase_api.GenerateHeaders(apiKey, apiSecret, "GET", "/api/v3/brokerage/accounts", "")
-    if err != nil {
-	return 0, response, err
-    }
 
     req, err := http.NewRequest("GET", "https://api.coinbase.com/api/v3/brokerage/accounts", nil)
     if err != nil {
