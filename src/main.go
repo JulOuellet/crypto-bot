@@ -17,10 +17,11 @@ func main() {
 	log.Fatal("Error loading .env file: ", err)
     }
 
-    apiKey := os.Getenv("COINBASE_API_KEY")
-    apiSecret := os.Getenv("COINBASE_API_SECRET")
+    api := coinbase_api.NewCoinbaseApi(
+	os.Getenv("COINBASE_API_KEY"),
+	os.Getenv("COINBASE_API_SECRET"),
+    )
 
-    api := coinbase_api.NewCoinbaseApi(apiKey, apiSecret)
     code, response, err := api.GetAccounts()
 
     for _, account := range response.Accounts {

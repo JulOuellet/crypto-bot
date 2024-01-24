@@ -29,3 +29,4 @@ func (c *CoinbaseApi) GetAccounts() (int, account.AccountsResponse, error) {
     }
     return account.GetAccounts(c.apiKey, c.apiSecret, *c.client, headers)
 }
+
