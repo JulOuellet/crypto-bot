@@ -1,7 +1,7 @@
 package account
 
 import (
-    "time"
+   "time"
 )
 
 type Balance struct {

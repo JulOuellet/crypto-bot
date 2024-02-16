@@ -16,7 +16,7 @@ func GenerateHeaders(apiKey, apiSecret, method, requestPath, body string) (http.
     hmacObject := hmac.New(sha256.New, []byte(apiSecret))
     _, err := hmacObject.Write([]byte(signatureString))
     if err != nil {
-	return nil, err
+	    return nil, err
     }
     signature := hex.EncodeToString(hmacObject.Sum(nil))
 
